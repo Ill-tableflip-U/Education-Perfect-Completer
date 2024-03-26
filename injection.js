@@ -320,9 +320,12 @@
             }
           }
         } else if (
-          field.ComponentTypeCode === "SCRATCH_PAD_COMPONENT" ||
-          field.ComponentTypeCode === "FILE_UPLOADER_COMPONENT" ||
           field.ComponentTypeCode === "FREEFORM_WORKING_COMPONENT"
+        ) {
+          prevent_submission = true
+        } else if (
+          field.ComponentTypeCode === "SCRATCH_PAD_COMPONENT" ||
+          field.ComponentTypeCode === "FILE_UPLOADER_COMPONENT" 
         ) {
           //prevent_submission = true
           //submit_blue_section()
