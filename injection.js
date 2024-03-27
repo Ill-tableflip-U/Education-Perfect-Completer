@@ -96,7 +96,7 @@
   }
 
   let ep_questions = await init();
-
+console.log(ep_questions)
   let previousHref = window.location.href;
   setInterval(() => {
     const currentHref = window.location.href;
@@ -151,15 +151,18 @@
     "#next-button",
     ".self-rating-stars.star-rating-ext div .star-5",
     ".stuck-button.v-group.v-align-center.ng-binding",
-    ".positive.action-bar-button.v-group.ng-isolate-scope button",
-    ".explanation-continue.arrow.action-bar-button.v-group.ng-isolate-scope button",
+    ".positive.action-bar-button.v-group.ng-isolate-scope button"
   ];
   async function cycle() {
     if (!active) {
       return;
     }
+    if(document.querySelector('.explanation-controls.h-group.v-align-center.ng-isolate-scope.h-align-right:not(.ng-hide)')){
+      document.querySelector('.explanation-continue.arrow.action-bar-button.v-group.ng-isolate-scope button').click()
+    }
     checkbuttons.forEach((button) => {
       if (document.querySelector(button)) {
+        console.log(button)
         document.querySelector(button).click();
       }
     });
@@ -214,7 +217,7 @@
 
       ep_question.Definition.Components.forEach((field, index) => {
         // determining the fields and answers of the purple multiple choice question.
-
+        console.log(field)
         if (field.ComponentTypeCode === "MULTICHOICE_COMPONENT") {
           //if the field is multiple choice (single select)
           let correct_answers = field.Options.filter(
@@ -254,37 +257,42 @@
             let foundgap = field.Gaps.find(
               (gap) => gap.ID.toString() === dropzone.id
             );
+            dropzone.value = foundgap.CorrectOptions[0];
             dropzone.innerHTML = foundgap.CorrectOptions[0];
+
           });
           return;
         } else if (field.ComponentTypeCode === "DROPDOWN_COMPONENT") {
           let select = document.querySelectorAll(
-            "#question-container-group select"
+            `#question-container-group select#${field.ComponentID}`
           );
-          select[dropdown_index]
+
+            
+          select[0]
             .querySelectorAll("option")
             .forEach((option) => {
               let match = field.Options.find((drop) => drop.Correct == "true");
+              console.log(match.Description)
+              console.log(option.innerText)
               if (md(match.Description) === md(option.innerText) || "") {
-                select[index].value = option.innerText;
+
+                select[0].value = option.innerText;
               }
             });
           dropdown_index = dropdown_index + 1;
           var onchange = new Event("change", { bubbles: true });
-          select[index].dispatchEvent(onchange);
+          select[0].dispatchEvent(onchange);
         } else if (field.ComponentTypeCode === "TEXT_BOX_COMPONENT") {
           let inputbox = document.querySelectorAll(
             "#question-container-group input.text-box-component"
           );
+          console.log(inputbox[textbox_index])
           inputbox[textbox_index].value = field.Options[0];
           textbox_index = textbox_index + 1;
         } else if (field.ComponentTypeCode === "LONG_ANSWER_COMPONENT") {
           //if the field is for a long answer
           let placeholder =
-            "Lorem ipsum dolor sit amet,\n consectetur adipiscing elit,<br> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat.\ncupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat.\ncupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n ation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat.\ncupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            
-          
-          ";
+            "Lorem ipsum dolor sit amet,\n\n consectetur adipiscing elit,<br> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\n Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat.\n\n\ncupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat.\ncupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\n ation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat.\ncupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
           if (true) {
             //user wants to pause for self submission answer thing idk
