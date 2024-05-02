@@ -359,7 +359,7 @@ console.log(ep_questions)
   }
   let active = false;
   document.addEventListener("keydown", function (event) {
-    if (event.altKey && event.key === "s") {
+    if (event.altKey && event.keyCode===83) {
       if (active) {
         active = false;
       } else {
