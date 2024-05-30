@@ -205,10 +205,15 @@ console.log(ep_questions)
       ep_activityContainer.classList.forEach((className) => {
         // getting the current question ID and finding that question within the list retrieved from EP servers
         if (className.startsWith("contentid-")) {
-          ep_questionId = parseInt(className.substring("contentid-".length));
-          ep_question = ep_questions.result.Questions.find(
-            (obj) => obj.ID === ep_questionId
-          );
+          try{
+            console.log
+            ep_questionId = parseInt(className.substring("contentid-".length));
+            ep_question = ep_questions.result.Questions.find(
+              (obj) => obj.ID === ep_questionId
+            );
+          }catch{
+            return
+          }
         }
       });
       let prevent_submission = false;
